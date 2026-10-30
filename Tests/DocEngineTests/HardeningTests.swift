@@ -231,6 +231,29 @@ import ConvertSamaKit
         #expect(fine.count == 1)
     }
 
+    /// The free-space trigger is volume-wide: other writers can push it over the cap, but only bytes under `dest` fail a job.
+    @Test func watchdogCountsOnlyExtractedBytes() async throws {
+        let sleep = URL(fileURLWithPath: "/bin/sleep")
+        try await Archives.runWatched(sleep, ["0.5"], what: "sleep", archive: "a.zip", limit: 10,
+                                      trigger: { .max }, measure: { 10 })
+        let start = ContinuousClock.now
+        await #expect(throws: EngineError.invalidInput("a.zip expands beyond the 11 bytes limit; extraction stopped")) {
+            try await Archives.runWatched(sleep, ["30"], what: "sleep", archive: "a.zip", limit: 11,
+                                          trigger: { .max }, measure: { 12 })
+        }
+        #expect(ContinuousClock.now - start < .seconds(10), "stopped by the watchdog, not at exit")
+
+        let dir = try W5.dir("h-tree")
+        let fm = FileManager.default
+        let a = try W5.write(String(repeating: "x", count: 1000), to: dir, name: "a.txt")
+        try fm.createDirectory(at: dir.appendingPathComponent("sub"), withIntermediateDirectories: true)
+        _ = try W5.write("12345", to: dir.appendingPathComponent("sub"), name: "b.txt")
+        try fm.linkItem(at: a, to: dir.appendingPathComponent("sub/hard.txt"))
+        try fm.createSymbolicLink(atPath: dir.appendingPathComponent("soft").path, withDestinationPath: "a.txt")
+        try fm.createSymbolicLink(atPath: dir.appendingPathComponent("loop").path, withDestinationPath: ".")
+        #expect(Archives.treeBytes(dir) == 1005)
+    }
+
     // MARK: 9 Number formats
 
     @Test func xlsxDatesAndPercents() throws {

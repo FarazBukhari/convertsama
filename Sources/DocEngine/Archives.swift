@@ -59,8 +59,11 @@ enum Archives {
         try fm.createDirectory(at: dest, withIntermediateDirectories: true)
         let limits = Limits.forExtraction(into: work, job: job)
         let name = input.lastPathComponent
+        // Free space is volume-wide (other jobs and apps write there too), so its drop is only a cheap trigger;
+        // the bytes actually under `dest` decide.
         let startFree = DocSupport.freeBytes(at: work) ?? 0
-        let consumed: @Sendable () -> Int64 = { max(0, startFree - (DocSupport.freeBytes(at: work) ?? startFree)) }
+        let volumeDrop: @Sendable () -> Int64 = { max(0, startFree - (DocSupport.freeBytes(at: work) ?? startFree)) }
+        let written: @Sendable () -> Int64 = { treeBytes(dest) }
 
         switch format {
         case "zip":
@@ -72,7 +75,7 @@ enum Archives {
             progress(0.2)
             let ditto = try context.tools.require("ditto")
             try await runWatched(ditto, ["-x", "-k", input.path, dest.path], what: "ditto", archive: name,
-                                 limit: limits.maxBytes, measure: consumed)
+                                 limit: limits.maxBytes, trigger: volumeDrop, measure: written)
             try? fm.removeItem(at: dest.appendingPathComponent("__MACOSX"))
         case "tar", "tar.gz", "rar":
             let tar = try context.tools.require("tar")
@@ -83,7 +86,7 @@ enum Archives {
             try validate(try await tarListing(input, tar: tar), archive: input, limits: limits)
             progress(0.2)
             try await runWatched(tar, ["-xf", input.path, "-C", dest.path], env: DocSupport.archiveEnvironment, what: "tar",
-                                 archive: name, limit: limits.maxBytes, measure: consumed)
+                                 archive: name, limit: limits.maxBytes, trigger: volumeDrop, measure: written)
         case "gz":
             let gzip = try context.tools.require("gzip")
             let inner = innerName(forGzip: input)
@@ -312,15 +315,32 @@ enum Archives {
         }
     }
 
+    /// Logical size of the regular files under `root`. Symlinks aren't followed; hard-linked files count once.
+    static func treeBytes(_ root: URL) -> Int64 {
+        guard let e = FileManager.default.enumerator(atPath: root.path) else { return 0 }
+        var total: Int64 = 0
+        var linked = Set<ino_t>()
+        var st = stat()
+        for case let rel as String in e {
+            guard lstat(root.path + "/" + rel, &st) == 0, st.st_mode & S_IFMT == S_IFREG else { continue }
+            if st.st_nlink > 1, !linked.insert(st.st_ino).inserted { continue }
+            total &+= Int64(st.st_size)
+        }
+        return total
+    }
+
     /// Runs an extractor while polling `measure()`; stops it (and fails) once output exceeds `limit`.
+    /// With a `trigger` (cheap, may overcount), `measure()` only runs while the trigger is over `limit`.
     static func runWatched(_ tool: URL, _ args: [String], env: [String: String]? = nil, what: String, archive: String,
-                           limit: Int64, measure: @escaping @Sendable () -> Int64) async throws {
+                           limit: Int64, trigger: (@Sendable () -> Int64)? = nil,
+                           measure: @escaping @Sendable () -> Int64) async throws {
         let overLimit = EngineError.invalidInput("\(archive) expands beyond the \(ByteCountFormatter().string(fromByteCount: limit)) limit; extraction stopped")
         try await withThrowingTaskGroup(of: Void.self) { group in
             group.addTask { try await run(tool, args, env: env, what: what) }
             group.addTask {
                 while true {
                     try await Task.sleep(nanoseconds: 150_000_000)
+                    if let trigger, trigger() <= limit { continue }
                     if measure() > limit { throw overLimit }
                 }
             }
