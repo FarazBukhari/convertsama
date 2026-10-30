@@ -2,7 +2,7 @@ import AppKit
 import Foundation
 import PDFKit
 import Vision
-import RondoKit
+import ConvertSamaKit
 
 /// PDF → TXT / MD / DOCX / EPUB.
 enum PDFExport {

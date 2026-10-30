@@ -2,7 +2,7 @@ import Foundation
 import CoreGraphics
 import PDFKit
 import Quartz
-import RondoKit
+import ConvertSamaKit
 
 /// Page-level PDF tools: compress, merge, split, reorder, metadata strip.
 enum PDFTools {
@@ -17,7 +17,7 @@ enum PDFTools {
         let props: [String: Any] = [
             "Domains": ["Applications": true, "Printing": true],
             "FilterType": 1,
-            "Name": "Rondo Compress",
+            "Name": "ConvertSama Compress",
             "FilterData": [
                 "ColorSettings": [
                     "ImageSettings": [

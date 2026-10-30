@@ -1,4 +1,4 @@
-# Rondo — Architecture
+# ConvertSama — Architecture
 
 SwiftPM-only (no Xcode.app). One package, many small targets so parallel agents can build their module with `swift build --target X` without breaking each other.
 
@@ -9,7 +9,7 @@ Package.swift
 Resources/Info.plist            # copied into the bundle by scripts/bundle.sh
 Resources/AppIcon.icns          # original art, generated (phase 6)
 Sources/
-  RondoKit/                     # contracts + support. Orchestrator-owned.
+  ConvertSamaKit/                     # contracts + support. Orchestrator-owned.
     Model/      FileKind, Format, FormatCatalog, Operation, JobSpec, OptionValue, ToolDescriptor, Wheel*
     Engine/     Engine protocol, JobContext, EngineRegistry
     Support/    ProcessRunner, ToolLocator, OutputNamer, TempDir, Settings
@@ -18,23 +18,23 @@ Sources/
   PDFEngine/                    # W3
   MediaEngine/                  # W4 (video + audio, ffmpeg)
   DocEngine/                    # W5 (documents, subtitles, archives, spreadsheets, slides)
-  RondoInteraction/             # W1 (DragMonitor, WheelPanel, WheelView, WheelModel, keyboard)
-  RondoShell/                   # W2 (status item, progress HUD, settings, actions, Float shelf, hotkey)
+  ConvertSamaInteraction/             # W1 (DragMonitor, WheelPanel, WheelView, WheelModel, keyboard)
+  ConvertSamaShell/                   # W2 (status item, progress HUD, settings, actions, Float shelf, hotkey)
   ImageEditorUI/                # W6
   MediaEditorUI/                # W7
   PDFOrganizerUI/               # W8
-  Rondo/                        # app executable: main.swift, AppDelegate, composition root. Orchestrator-owned.
-  rondo-cli/                    # headless harness: convert / tool / list / selftest. Orchestrator-owned.
+  ConvertSama/                        # app executable: main.swift, AppDelegate, composition root. Orchestrator-owned.
+  convertsama-cli/                    # headless harness: convert / tool / list / selftest. Orchestrator-owned.
 Tests/<Target>Tests/
 scripts/  bundle.sh run.sh make-fixtures.sh smoke.sh
 fixtures/ (generated, gitignored outputs in fixtures/out/)
 ```
 
-Dependency rule: every target → `RondoKit`. `*UI` targets → their engine too. `Rondo` and `rondo-cli` → everything they need. Nothing depends on `Rondo`.
+Dependency rule: every target → `ConvertSamaKit`. `*UI` targets → their engine too. `ConvertSama` and `convertsama-cli` → everything they need. Nothing depends on `ConvertSama`.
 
-## Contracts (RondoKit) — as built in P2
+## Contracts (ConvertSamaKit) — as built in P2
 
-Source of truth is `Sources/RondoKit/**`; this is the map. Change only via the orchestrator.
+Source of truth is `Sources/ConvertSamaKit/**`; this is the map. Change only via the orchestrator.
 
 | File | Public API |
 |------|-----------|
@@ -73,7 +73,7 @@ AppDelegate
  └─ WheelPanel selection ─▶ payload
         .convert/.tool(needsUI=false) → JobQueue.submit
         .tool(needsUI=true)           → open ImageEditor / MediaEditor / PDFOrganizer → JobQueue.submit
-        .action                       → RondoShell.Actions
+        .action                       → ConvertSamaShell.Actions
 ```
 
 ## Global drag detection (W1) — highest risk
@@ -91,8 +91,8 @@ AppDelegate
 | Risk | Mitigation |
 |------|------------|
 | Global mouse monitor or drag pasteboard unreliable on macOS 26 | Phase 1 spike gates it. Fallbacks: status-item drop, Float drop, hotkey + Finder selection, Services Quick Action — all reuse `WheelPanel` in click mode. |
-| Ad-hoc signing changes cdhash each build → TCC grants (Accessibility, Automation) reset every rebuild | `bundle.sh` uses identity `$SIGN_ID` if present. User may create a self-signed "Rondo Dev" code-signing cert in Keychain Access themselves; otherwise re-grant after rebuilds. |
-| `swift test` / XCTest missing with CLT-only | Phase 0 probe; fallback `rondo-cli selftest`. |
+| Ad-hoc signing changes cdhash each build → TCC grants (Accessibility, Automation) reset every rebuild | `bundle.sh` uses identity `$SIGN_ID` if present. User may create a self-signed "ConvertSama Dev" code-signing cert in Keychain Access themselves; otherwise re-grant after rebuilds. |
+| `swift test` / XCTest missing with CLT-only | Phase 0 probe; fallback `convertsama-cli selftest`. |
 | ImageIO can't write WebP/AVIF on this macOS | Gate at runtime via `CGImageDestinationCopyTypeIdentifiers()`; use `magick`. |
 | Intel HEVC/HEIC encode | T2 Macs support it; gate on ImageIO/VideoToolbox availability. |
 | Disk (~24 GB free) | One shared `.build`; fixtures small; outputs in `fixtures/out/` (gitignored). |

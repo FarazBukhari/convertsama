@@ -2,9 +2,9 @@ import AppKit
 import AVFoundation
 import Foundation
 import os
-import RondoKit
+import ConvertSamaKit
 
-let editorLog = Logger(subsystem: "com.farazbukhari.rondo", category: "media-editor")
+let editorLog = Logger(subsystem: "com.farazbukhari.convertsama", category: "media-editor")
 
 /// Preview-only artefacts (filmstrip frames, waveform peaks, playback proxy), produced with ffmpeg
 /// into `workDir` (a `TempDir`, never beside the user's file). Every call is cancellable: the

@@ -2,9 +2,9 @@ import Foundation
 import CoreGraphics
 import ImageIO
 import os
-import RondoKit
+import ConvertSamaKit
 
-let imageLog = Logger(subsystem: "com.farazbukhari.rondo", category: "image")
+let imageLog = Logger(subsystem: "com.farazbukhari.convertsama", category: "image")
 
 /// Catalog ids this engine reads / writes, and ImageIO capability probes.
 enum ImageFormats {

@@ -2,7 +2,7 @@ import AppKit
 import Foundation
 import PDFKit
 import Testing
-import RondoKit
+import ConvertSamaKit
 @testable import PDFEngine
 
 private let threePages = ["Alpha page one. The quick brown fox.", "Bravo page two. Jumps over the lazy dog.", "Charlie page three. The end."]
@@ -132,7 +132,7 @@ private let threePages = ["Alpha page one. The quick brown fox.", "Bravo page tw
         #expect(s.contains("Line 1") && s.contains("Line 150"))
 
         let short = dir.appendingPathComponent("short.txt")
-        try "Hello Rondo".write(to: short, atomically: true, encoding: .utf8)
+        try "Hello ConvertSama".write(to: short, atomically: true, encoding: .utf8)
         let png = try await e.runTest(JobSpec(inputs: [short], operation: .convert(to: "png"), options: ["dpi": .int(72), "pageSize": .string("a4")]))
         #expect(png[0].lastPathComponent == "short.png")
         let img = try #require(PFx.load(png[0]))
@@ -249,12 +249,12 @@ private let threePages = ["Alpha page one. The quick brown fox.", "Bravo page tw
         let dir = try PFx.dir("ocr")
         defer { PFx.cleanup(dir) }
         let src = dir.appendingPathComponent("scan.pdf")
-        PFx.makeScannedPDF("RONDO SCAN TEST", at: src)
+        PFx.makeScannedPDF("CONVERTSAMA SCAN TEST", at: src)
         let srcText = PFx.text(src)
         #expect(srcText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
         let out = try await PDFDocumentEngine().runTest(JobSpec(inputs: [src], operation: .tool("pdf.text.extract")))
         let text = try String(contentsOf: out[0], encoding: .utf8).uppercased()
-        #expect(text.contains("RONDO") && text.contains("SCAN"), "OCR got: \(text)")
+        #expect(text.contains("CONVERTSAMA") && text.contains("SCAN"), "OCR got: \(text)")
         await #expect(throws: EngineError.invalidInput("No text found in scan.pdf (OCR is off)")) {
             _ = try await PDFDocumentEngine().runTest(JobSpec(inputs: [src], operation: .tool("pdf.text.extract"), options: ["ocr": .bool(false)]))
         }

@@ -1,6 +1,6 @@
 import AppKit
 import Foundation
-import RondoKit
+import ConvertSamaKit
 import SwiftUI
 import Testing
 @testable import ImageEditorUI

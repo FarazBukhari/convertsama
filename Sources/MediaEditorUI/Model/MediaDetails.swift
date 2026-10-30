@@ -1,7 +1,7 @@
 import AVFoundation
 import CoreGraphics
 import Foundation
-import RondoKit
+import ConvertSamaKit
 
 /// What the editor needs to know about a media file. Sizes are pixels; `displaySize` is after rotation
 /// (what the user sees, and what the engine's crop `rect` refers to).

@@ -3,7 +3,7 @@
 # the default search paths, so plain `swift test` fails with "no such module 'Testing'".
 # Usage:
 #   scripts/test.sh                 run all tests
-#   scripts/test.sh <filter>        run tests matching filter (e.g. RondoKitTests)
+#   scripts/test.sh <filter>        run tests matching filter (e.g. ConvertSamaKitTests)
 #   scripts/test.sh build <Target>  compile one test target only (e.g. MediaEngineTests)
 set -euo pipefail
 cd "$(dirname "$0")/.."

@@ -2,7 +2,7 @@ import AppKit
 import CoreGraphics
 import Foundation
 import Testing
-import RondoKit
+import ConvertSamaKit
 @testable import DocEngine
 
 /// Regression tests for the P7 review findings (hostile inputs). Numbers refer to the review items.

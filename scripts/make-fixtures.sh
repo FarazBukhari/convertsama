@@ -49,7 +49,7 @@ $FF "${SRC_A[@]}" -c:a wmav2 "$OUT/sample.wma"
 
 echo "documents…"
 {
-  echo "Rondo fixture document"
+  echo "ConvertSama fixture document"
   echo
   for i in $(seq 1 90); do echo "Line $i: The quick brown fox jumps over the lazy dog."; done
 } > "$OUT/sample.txt"
@@ -97,7 +97,7 @@ cp "$OUT/sample.txt" "$OUT/sample.png" "$OUT/sample-folder/"
 gzip -kc "$OUT/sample.txt" > "$OUT/sample.txt.gz"
 
 echo "qr…"
-swift build --product rondo-cli >/dev/null
-"$(swift build --show-bin-path)/rondo-cli" gen-qr "https://example.com/rondo-fixture" "$OUT/qr.png"
+swift build --product convertsama-cli >/dev/null
+"$(swift build --show-bin-path)/convertsama-cli" gen-qr "https://example.com/convertsama-fixture" "$OUT/qr.png"
 
 echo "Fixtures in $OUT: $(ls "$OUT" | wc -l | tr -d ' ') entries, $(du -sh "$OUT" | cut -f1)"

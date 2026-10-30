@@ -1,6 +1,6 @@
 import AppKit
 import Foundation
-import RondoKit
+import ConvertSamaKit
 
 // Pure, view-free logic for the organizer. Everything here is value types so it can be unit-tested
 // without a window. Page numbers are 1-based throughout (the engine's convention).

@@ -1,6 +1,6 @@
 import CoreGraphics
 import Foundation
-import RondoKit
+import ConvertSamaKit
 import Testing
 @testable import ImageEditorUI
 
@@ -129,7 +129,7 @@ import Testing
         m.updateStyle { $0.color = .white; $0.fontSize = 28 }
         m.pointerDown(at: t.toView(CGPoint(x: 30, y: 120)), viewSize: Self.view)
         m.pointerUp(at: t.toView(CGPoint(x: 30, y: 120)), viewSize: Self.view)
-        m.setSelectedText("Rondo\nnote")
+        m.setSelectedText("ConvertSama\nnote")
         #expect(m.annotations.count == 7)
 
         let s = try #require(m.submission())

@@ -1,6 +1,6 @@
 import Foundation
 import Compression
-import RondoKit
+import ConvertSamaKit
 
 /// Minimal in-memory ZIP writer (store + raw DEFLATE via Compression's COMPRESSION_ZLIB).
 /// Entries are written in the order added — EPUB needs `mimetype` first and stored.

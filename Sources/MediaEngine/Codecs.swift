@@ -1,5 +1,5 @@
 import Foundation
-import RondoKit
+import ConvertSamaKit
 
 // MARK: - User quality settings
 

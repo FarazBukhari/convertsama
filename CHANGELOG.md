@@ -1,6 +1,11 @@
 # Changelog
 
-All notable changes to Rondo. Versions follow [Semantic Versioning](https://semver.org).
+All notable changes to ConvertSama (called Rondo up to 0.1.2). Versions follow [Semantic Versioning](https://semver.org).
+
+## [Unreleased]
+
+- Renamed from Rondo to ConvertSama. The app is now `ConvertSama.app` (bundle id `com.farazbukhari.convertsama`) and the CLI is `convertsama-cli`.
+- Settings and recent outputs carry over from Rondo on first launch. macOS ties permissions to the app, so grant Accessibility and Automation again, and turn Launch at Login back on if you used it. Then delete `Rondo.app`.
 
 ## [0.1.2] - 2026-10-22
 

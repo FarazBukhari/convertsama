@@ -33,4 +33,4 @@ jobs:
         run: scripts/test.sh
 
       - name: Universal release bundle
-        run: UNIVERSAL=1 scripts/bundle.sh release && lipo -archs build/Rondo.app/Contents/MacOS/Rondo
+        run: UNIVERSAL=1 scripts/bundle.sh release && lipo -archs build/ConvertSama.app/Contents/MacOS/ConvertSama

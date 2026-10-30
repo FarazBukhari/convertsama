@@ -1,7 +1,7 @@
 import AppKit
 import Foundation
 import PDFKit
-import RondoKit
+import ConvertSamaKit
 import Testing
 @testable import PDFOrganizerUI
 

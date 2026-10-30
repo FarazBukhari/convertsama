@@ -1,7 +1,7 @@
 import AppKit
 import Foundation
 import PDFKit
-import RondoKit
+import ConvertSamaKit
 
 /// What every organizer mode exposes to the window: keyboard commands and the final submit payload.
 @MainActor

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Build the Rondo executable and assemble build/Rondo.app (no Xcode needed).
-# Usage: [UNIVERSAL=1] [SIGN_ID="Rondo Dev"] scripts/bundle.sh [debug|release]
+# Build the ConvertSama executable and assemble build/ConvertSama.app (no Xcode needed).
+# Usage: [UNIVERSAL=1] [SIGN_ID="ConvertSama Dev"] scripts/bundle.sh [debug|release]
 # Signing: uses $SIGN_ID if that code-signing identity exists, else ad-hoc ("-").
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -12,19 +12,19 @@ case "$CONF" in debug|release) ;; *) echo "usage: $0 [debug|release]" >&2; exit 
 ARCH_FLAGS=()
 [[ "${UNIVERSAL:-0}" == "1" ]] && ARCH_FLAGS=(--arch arm64 --arch x86_64)
 
-swift build -c "$CONF" "${ARCH_FLAGS[@]+"${ARCH_FLAGS[@]}"}" --product Rondo
+swift build -c "$CONF" "${ARCH_FLAGS[@]+"${ARCH_FLAGS[@]}"}" --product ConvertSama
 BIN_DIR="$(swift build -c "$CONF" "${ARCH_FLAGS[@]+"${ARCH_FLAGS[@]}"}" --show-bin-path)"
 
-APP="build/Rondo.app"
+APP="build/ConvertSama.app"
 rm -rf "$APP"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
-cp "$BIN_DIR/Rondo" "$APP/Contents/MacOS/Rondo"
+cp "$BIN_DIR/ConvertSama" "$APP/Contents/MacOS/ConvertSama"
 cp Resources/Info.plist "$APP/Contents/Info.plist"
 [[ -f Resources/AppIcon.icns ]] && cp Resources/AppIcon.icns "$APP/Contents/Resources/AppIcon.icns"
 # SwiftPM resource bundles, if any target declares resources
 for b in "$BIN_DIR"/*.bundle; do [[ -e "$b" ]] && cp -R "$b" "$APP/Contents/Resources/"; done
 
-# Self-signed identities (e.g. "Rondo Dev" from Keychain Access) aren't "valid" to Apple's trust
+# Self-signed identities (e.g. "ConvertSama Dev" from Keychain Access) aren't "valid" to Apple's trust
 # policy, so don't use -v: any code-signing identity with that name in the keychain works.
 IDENTITY="-"
 if [[ -n "${SIGN_ID:-}" ]]; then
@@ -34,5 +34,5 @@ if [[ -n "${SIGN_ID:-}" ]]; then
     echo "warning: signing identity \"$SIGN_ID\" not found; using ad-hoc signature" >&2
   fi
 fi
-codesign --force --sign "$IDENTITY" --identifier com.farazbukhari.rondo "$APP"
+codesign --force --sign "$IDENTITY" --identifier com.farazbukhari.convertsama "$APP"
 echo "Built $APP ($CONF, signed: $IDENTITY)"

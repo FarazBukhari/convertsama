@@ -3,9 +3,9 @@ import CoreGraphics
 import ImageIO
 import PDFKit
 import os
-import RondoKit
+import ConvertSamaKit
 
-let pdfLog = Logger(subsystem: "com.farazbukhari.rondo", category: "pdf")
+let pdfLog = Logger(subsystem: "com.farazbukhari.convertsama", category: "pdf")
 
 enum PDFSupport {
     static let sRGB = CGColorSpace(name: CGColorSpace.sRGB)!

@@ -1,4 +1,4 @@
-# Rondo — Build Progress
+# ConvertSama — Build Progress
 
 Updated by `/orchestrate`. A box is checked only after the orchestrator ran the gate commands itself.
 
@@ -6,10 +6,10 @@ Updated by `/orchestrate`. A box is checked only after the orchestrator ran the 
 
 - [x] **P0 Preflight** — git init, toolchain + test-framework probe, disk check
 - [x] **P1 Scaffold + drag spike** — Package.swift with all targets, bundle/run scripts, menu-bar app launches, Finder drag → Shift → wheel spike
-- [x] **P2 Contracts** — RondoKit per ARCHITECTURE.md, unit tests
+- [x] **P2 Contracts** — ConvertSamaKit per ARCHITECTURE.md, unit tests
 - [x] **P3 Workstreams** — W1 Interaction · W2 Shell+Actions · W3 Image+PDF · W4 Media · W5 Docs
   - [x] W1  - [x] W2  - [x] W3  - [x] W4  - [x] W5
-- [x] **P4 Integration** — registry wiring, app composition, rondo-cli, fixtures, smoke matrix
+- [x] **P4 Integration** — registry wiring, app composition, convertsama-cli, fixtures, smoke matrix
 - [x] **P5 Tool windows** — W6 Image editor · W7 Media editor · W8 PDF organizer
   - [x] W6  - [x] W7  - [x] W8
 - [x] **P6 Polish** — settings complete, original icon, release build, launch at login, permission onboarding
@@ -58,7 +58,7 @@ P7 final 2026-10-21 (after review fixes): smoke 616/616, expected errors 5/5. Te
 - [ ] AirDrop / Copy / Move / Copy Path / Terminal actions (Copy Path / Float / Terminal user-confirmed; AirDrop / Copy / Move untested)
 - [x] Editor windows: image crop/annotate/redact/adjust, video trim, audio trim/bleep, PDF reorder — user-confirmed 2026-10-21
 - [x] Settings persist across relaunch (wheelTrigger=tap, videoPreset=fast verified via `defaults export` after user quit/relaunch, 2026-10-21); first-run welcome shown once; quick-tap mode user-confirmed
-- [ ] Launch at login actually starts Rondo after a real logout/login (saved `launchAtLogin=true` as of 2026-10-21; registered via SMAppService from Settings)
+- [ ] Launch at login actually starts ConvertSama after a real logout/login (saved `launchAtLogin=true` as of 2026-10-21; registered via SMAppService from Settings)
 
 ## Decisions log
 

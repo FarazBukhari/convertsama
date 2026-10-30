@@ -1,6 +1,6 @@
-<p align="center"><img src="docs/icon.png" width="128" alt="Rondo icon"></p>
+<p align="center"><img src="docs/icon.png" width="128" alt="ConvertSama icon"></p>
 
-<h1 align="center">Rondo</h1>
+<h1 align="center">ConvertSama</h1>
 
 <p align="center">Convert, compress and edit files without leaving Finder.<br>
 Drag a file, tap a key, drop it on the wheel. Free and open source.</p>
@@ -9,7 +9,7 @@ Drag a file, tap a key, drop it on the wheel. Free and open source.</p>
 
 ## How it works
 
-Rondo lives in your menu bar. While you drag files anywhere in macOS, tap a key and a wheel appears under your cursor:
+ConvertSama lives in your menu bar. While you drag files anywhere in macOS, tap a key and a wheel appears under your cursor:
 
 | Tap while dragging | Wheel | Examples |
 |---|---|---|
@@ -17,7 +17,7 @@ Rondo lives in your menu bar. While you drag files anywhere in macOS, tap a key 
 | **⌥ Option** | **Tools** | Compress, resize, crop, trim, merge PDFs, strip metadata |
 | **⌃ Control** | **Actions** | AirDrop, Float, Copy, Move, Copy Path, Open in Terminal |
 
-Drop on a slice and Rondo saves the result **next to the original** (`photo.jpg`, `photo 2.jpg` if that name is taken). Originals are never modified.
+Drop on a slice and ConvertSama saves the result **next to the original** (`photo.jpg`, `photo 2.jpg` if that name is taken). Originals are never modified.
 
 Other ways in: drop files on the menu-bar icon, select files in Finder and press **⌃⌥Space**, or park files on the floating shelf and drop them later. All keys can be remapped in Settings.
 
@@ -38,18 +38,18 @@ Editors open for hands-on tools: an image editor (crop, adjust, annotate, redact
 
 ## Privacy
 
-Everything runs on your Mac. Rondo makes no network requests and collects no analytics.
+Everything runs on your Mac. ConvertSama makes no network requests and collects no analytics.
 
 ## Install
 
 1. With [Homebrew](https://brew.sh):
    ```bash
-   brew install --cask farazbukhari/tap/rondo
+   brew install --cask farazbukhari/tap/convertsama
    ```
-   Or download **Rondo-x.y.z.zip** from [Releases](../../releases/latest), unzip it, and drag **Rondo.app** to **Applications**.
-2. **First launch.** Rondo is a free project and isn't notarized by Apple, so macOS blocks it the first time. Open **System Settings → Privacy & Security**, scroll to the message about Rondo, and click **Open Anyway**. Or in Terminal:
+   Or download **ConvertSama-x.y.z.zip** from [Releases](../../releases/latest), unzip it, and drag **ConvertSama.app** to **Applications**.
+2. **First launch.** ConvertSama is a free project and isn't notarized by Apple, so macOS blocks it the first time. Open **System Settings → Privacy & Security**, scroll to the message about ConvertSama, and click **Open Anyway**. Or in Terminal:
    ```bash
-   xattr -dr com.apple.quarantine /Applications/Rondo.app
+   xattr -dr com.apple.quarantine /Applications/ConvertSama.app
    ```
 3. **Optional helpers** (via [Homebrew](https://brew.sh)) unlock video/audio and WebP/AVIF/SVG:
    ```bash
@@ -57,7 +57,9 @@ Everything runs on your Mac. Rondo makes no network requests and collects no ana
    ```
    Without them, the options that need them simply don't appear. Office slides convert when Keynote or LibreOffice is installed.
 
-Verify a download: `shasum -a 256 Rondo-x.y.z.zip` must match the `.sha256` file on the release page.
+Verify a download: `shasum -a 256 ConvertSama-x.y.z.zip` must match the `.sha256` file on the release page.
+
+**Upgrading from Rondo?** ConvertSama is the same app under a new name. Your settings carry over on first launch; grant Accessibility and Automation again, then delete `Rondo.app`.
 
 **Requirements:** macOS 13 Ventura or later, Apple Silicon or Intel.
 
@@ -76,17 +78,17 @@ Settings → Permissions shows the status and opens the right System Settings pa
 Requires macOS 13+ and a Swift 6 toolchain (Xcode or just the Command Line Tools).
 
 ```bash
-git clone https://github.com/FarazBukhari/rondo.git
-cd rondo
-scripts/run.sh            # debug build → build/Rondo.app → launch
-scripts/install.sh        # release build → /Applications/Rondo.app
+git clone https://github.com/FarazBukhari/convertsama.git
+cd convertsama
+scripts/run.sh            # debug build → build/ConvertSama.app → launch
+scripts/install.sh        # release build → /Applications/ConvertSama.app
 scripts/test.sh           # test suite (Swift Testing)
 scripts/smoke.sh          # convert every generated fixture through every engine
 ```
 
-`swift run rondo-cli` exposes the same engines headlessly (`list`, `matrix`, `convert`, `tool`). The architecture and engine contracts are in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+`swift run convertsama-cli` exposes the same engines headlessly (`list`, `matrix`, `convert`, `tool`). The architecture and engine contracts are in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
-Local builds are ad-hoc signed. To keep macOS permission grants across rebuilds, create a self-signed code-signing certificate named `Rondo Dev` in Keychain Access; `scripts/install.sh` uses it automatically.
+Local builds are ad-hoc signed. To keep macOS permission grants across rebuilds, create a self-signed code-signing certificate named `ConvertSama Dev` in Keychain Access; `scripts/install.sh` uses it automatically.
 
 ### Releasing
 
@@ -96,9 +98,9 @@ Local builds are ad-hoc signed. To keep macOS permission grants across rebuilds,
 The cask bump needs a repository secret `TAP_TOKEN` (one-time setup; without it the step is skipped):
 
 1. GitHub → Settings → Developer settings → Fine-grained tokens → **Generate new token**. Repository access: **Only select repositories** → `FarazBukhari/homebrew-tap`. Permissions → **Contents: Read and write**. Pick an expiration and renew it before it lapses.
-2. `gh secret set TAP_TOKEN -R FarazBukhari/rondo` and paste the token when prompted.
+2. `gh secret set TAP_TOKEN -R FarazBukhari/convertsama` and paste the token when prompted.
 
-Manual bump (no token): in a clone of the tap, set `version` and `sha256` in `Casks/rondo.rb` from the release's `.sha256` file, then `brew audit --cask --tap farazbukhari/tap` and push.
+Manual bump (no token): in a clone of the tap, set `version` and `sha256` in `Casks/convertsama.rb` from the release's `.sha256` file, then `brew audit --cask --tap farazbukhari/tap` and push.
 
 ## Contributing
 
@@ -108,4 +110,4 @@ Issues and pull requests are welcome. Please run `scripts/test.sh` before openin
 
 [MIT](LICENSE) © 2026 Faraz Bukhari.
 
-Rondo calls [FFmpeg](https://ffmpeg.org) and [ImageMagick](https://imagemagick.org) when you have them installed. They are not bundled and keep their own licenses.
+ConvertSama calls [FFmpeg](https://ffmpeg.org) and [ImageMagick](https://imagemagick.org) when you have them installed. They are not bundled and keep their own licenses.

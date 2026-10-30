@@ -1,4 +1,4 @@
-# Rondo — Feature Spec (clean-room)
+# ConvertSama — Feature Spec (clean-room)
 
 Target: behavior parity with *Tangerine: File Converter* (Leap Studio, Mac App Store id6813034065) as described publicly, rebuilt as an original app that runs on Intel + Apple Silicon Macs, macOS 13+.
 

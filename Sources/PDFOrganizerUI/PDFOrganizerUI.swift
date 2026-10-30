@@ -1,10 +1,10 @@
 import AppKit
 import Foundation
-import RondoKit
+import ConvertSamaKit
 import SwiftUI
 import os
 
-let organizerLog = Logger(subsystem: "com.farazbukhari.rondo", category: "pdf-organizer")
+let organizerLog = Logger(subsystem: "com.farazbukhari.convertsama", category: "pdf-organizer")
 
 /// PDF organizer windows: reorder / rotate / delete pages, pick split ranges, order files to merge.
 /// The organizer never writes files — it hands the inputs + engine options to `submit`, and the app turns

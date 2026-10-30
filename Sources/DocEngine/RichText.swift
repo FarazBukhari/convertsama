@@ -1,5 +1,5 @@
 import AppKit
-import RondoKit
+import ConvertSamaKit
 
 /// A loaded document: styled text plus metadata.
 struct LoadedDocument {
@@ -299,7 +299,7 @@ enum MarkdownImport {
         font = DocFonts.styled(font, bold: bold, italic: italic)
 
         var attrs: [NSAttributedString.Key: Any] = [.font: font, .paragraphStyle: style]
-        if let hint { attrs[.rondoBlock] = hint.rawValue }
+        if let hint { attrs[.convertsamaBlock] = hint.rawValue }
         if let color { attrs[.foregroundColor] = color }
         if inline?.contains(.strikethrough) == true { attrs[.strikethroughStyle] = NSUnderlineStyle.single.rawValue }
         if let link {

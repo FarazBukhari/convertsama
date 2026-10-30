@@ -1,6 +1,6 @@
 import Foundation
 import CoreGraphics
-import RondoKit
+import ConvertSamaKit
 
 /// Image conversions + image tools. ImageIO first; `magick` for WebP write, SVG read, and ImageIO gaps.
 public struct RasterEngine: Engine {
@@ -16,7 +16,7 @@ public struct RasterEngine: Engine {
     public func conversions() -> [ConversionDescriptor] {
         let ins = ImageFormats.inputs.filter { ImageFormats.canRead($0, tools: locator) }
         let outs = ImageFormats.outputs.filter { ImageFormats.canWrite($0, tools: locator) }
-        return RondoKit.conversions(from: ins, to: outs)
+        return ConvertSamaKit.conversions(from: ins, to: outs)
     }
 
     /// Every tool hides itself for formats this Mac can't decode (e.g. SVG without magick).

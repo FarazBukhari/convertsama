@@ -1,5 +1,5 @@
 import AppKit
-import RondoKit
+import ConvertSamaKit
 
 /// Documents, subtitles, archives, spreadsheets and slides.
 /// Pure Swift / AppKit text system / Core Text, plus system tools (`textutil`, `ditto`, `tar`, `gzip`)
@@ -34,17 +34,17 @@ public struct DocumentEngine: Engine {
         }
 
         // Subtitles
-        out += RondoKit.conversions(from: Self.subtitleFormats, to: Self.subtitleFormats + ["txt"])
+        out += ConvertSamaKit.conversions(from: Self.subtitleFormats, to: Self.subtitleFormats + ["txt"])
 
         // Spreadsheets (XLSX parts are read in-process)
-        out += RondoKit.conversions(from: Self.spreadsheetFormats, to: Self.spreadsheetFormats + ["pdf"])
+        out += ConvertSamaKit.conversions(from: Self.spreadsheetFormats, to: Self.spreadsheetFormats + ["pdf"])
 
         // Archives: create
         let hasDitto = locator.has("ditto"), hasTar = locator.has("tar"), hasGzip = locator.has("gzip")
         var folderTargets: [String] = []
         if hasDitto { folderTargets.append("zip") }
         if hasTar { folderTargets += ["tar", "tar.gz"] }
-        out += RondoKit.conversions(from: ["folder"], to: folderTargets)
+        out += ConvertSamaKit.conversions(from: ["folder"], to: folderTargets)
         // pdf → zip/tar.gz/gz included: the PDF engine never advertises archive targets (P3 decision).
         for f in FormatCatalog.all where ![.archive, .folder, .unknown].contains(f.kind) {
             if hasDitto { out.append(ConversionDescriptor(from: f.id, to: "zip")) }
@@ -61,7 +61,7 @@ public struct DocumentEngine: Engine {
         out += extractable.map { ConversionDescriptor(from: $0, to: "folder") }
 
         // Slides
-        out += RondoKit.conversions(from: Slides.inputs(locator), to: Self.slideOutputs)
+        out += ConvertSamaKit.conversions(from: Slides.inputs(locator), to: Self.slideOutputs)
 
         var seen = Set<ConversionDescriptor>()
         return out.filter { seen.insert($0).inserted }

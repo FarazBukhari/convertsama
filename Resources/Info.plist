@@ -5,17 +5,17 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Rondo</string>
+	<string>ConvertSama</string>
 	<key>CFBundleExecutable</key>
-	<string>Rondo</string>
+	<string>ConvertSama</string>
 	<key>CFBundleIconFile</key>
 	<string>AppIcon</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.farazbukhari.rondo</string>
+	<string>com.farazbukhari.convertsama</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Rondo</string>
+	<string>ConvertSama</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -29,7 +29,7 @@
 	<key>LSUIElement</key>
 	<true/>
 	<key>NSAppleEventsUsageDescription</key>
-	<string>Rondo reads the current Finder selection when you use the keyboard shortcut, and opens Terminal at a file's folder.</string>
+	<string>ConvertSama reads the current Finder selection when you use the keyboard shortcut, and opens Terminal at a file's folder.</string>
 	<key>NSHighResolutionCapable</key>
 	<true/>
 	<key>NSHumanReadableCopyright</key>

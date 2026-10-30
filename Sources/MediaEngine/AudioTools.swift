@@ -1,5 +1,5 @@
 import Foundation
-import RondoKit
+import ConvertSamaKit
 
 /// Same-format re-encode settings for an audio input.
 struct SameFormat {

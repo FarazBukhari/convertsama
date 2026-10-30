@@ -1,5 +1,5 @@
 import Foundation
-import RondoKit
+import ConvertSamaKit
 
 /// Archive creation (folder/file → zip, tar, tar.gz, gz) and safe extraction (zip, tar, tar.gz, gz, rar → folder).
 enum Archives {

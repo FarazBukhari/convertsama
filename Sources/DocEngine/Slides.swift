@@ -1,5 +1,5 @@
 import AppKit
-import RondoKit
+import ConvertSamaKit
 
 /// PPT/PPTX (and Keynote) → PDF/JPG/PNG through an installed exporter: LibreOffice (`soffice --headless`)
 /// or Keynote (AppleScript). Images are rasterized from the exported PDF. Advertised only when one exists.
@@ -90,7 +90,7 @@ enum Slides {
                 try await ProcessRunner.run(osascript, [script.path, input.path, out.path])
             } catch let e as ProcessError {
                 let tail = e.stderrTail.trimmingCharacters(in: .whitespacesAndNewlines)
-                let hint = tail.contains("-1743") ? " (allow Rondo to control Keynote in System Settings › Privacy & Security › Automation)" : ""
+                let hint = tail.contains("-1743") ? " (allow ConvertSama to control Keynote in System Settings › Privacy & Security › Automation)" : ""
                 throw EngineError.failed("Keynote export failed\(hint): \(tail)")
             }
             guard FileManager.default.fileExists(atPath: out.path) else { throw EngineError.failed("Keynote produced no PDF") }

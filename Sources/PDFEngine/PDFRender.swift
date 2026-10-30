@@ -2,7 +2,7 @@ import Foundation
 import CoreGraphics
 import CoreText
 import PDFKit
-import RondoKit
+import ConvertSamaKit
 
 /// Page rasterization and plain-text typesetting.
 enum PDFRender {
@@ -95,7 +95,7 @@ enum PDFRender {
         let data = NSMutableData()
         guard let consumer = CGDataConsumer(data: data as CFMutableData) else { throw EngineError.failed("PDF consumer") }
         var media = CGRect(origin: .zero, size: style.pageSize)
-        var info: [String: Any] = [kCGPDFContextCreator as String: "Rondo"]
+        var info: [String: Any] = [kCGPDFContextCreator as String: "ConvertSama"]
         if let title { info[kCGPDFContextTitle as String] = title }
         guard let ctx = CGContext(consumer: consumer, mediaBox: &media, info as CFDictionary) else {
             throw EngineError.failed("Can't create PDF")

@@ -1,4 +1,4 @@
-// Generates Rondo's original app icon (segmented wheel motif) as an .iconset, then
+// Generates ConvertSama's original app icon (segmented wheel motif) as an .iconset, then
 // scripts/make-icon.sh turns it into Resources/AppIcon.icns with iconutil.
 // Usage: swift scripts/make-icon.swift <out.iconset>
 import AppKit

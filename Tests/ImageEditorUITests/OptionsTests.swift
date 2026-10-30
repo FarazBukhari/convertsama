@@ -1,6 +1,6 @@
 import CoreGraphics
 import Foundation
-import RondoKit
+import ConvertSamaKit
 import ImageEngine
 import Testing
 @testable import ImageEditorUI

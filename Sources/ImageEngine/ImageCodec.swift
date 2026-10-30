@@ -1,7 +1,7 @@
 import Foundation
 import CoreGraphics
 import ImageIO
-import RondoKit
+import ConvertSamaKit
 
 /// A decoded image with orientation baked into the pixels.
 struct LoadedImage {

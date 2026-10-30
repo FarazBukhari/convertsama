@@ -1,13 +1,13 @@
 ---
 name: orchestrate
-description: Drive the phased, multi-agent build of Rondo (clean-room Tangerine-style macOS file converter) in this repo. Resumes from docs/PROGRESS.md. Use when the user runs /orchestrate or asks to continue, resume, or check status of the Rondo build.
+description: Drive the phased, multi-agent build of ConvertSama (clean-room Tangerine-style macOS file converter) in this repo. Resumes from docs/PROGRESS.md. Use when the user runs /orchestrate or asks to continue, resume, or check status of the ConvertSama build.
 argument-hint: "[next | all | status | phase <N> | ws <W#> | verify] [--max-parallel N]"
 disable-model-invocation: true
 ---
 
-# /orchestrate — build Rondo
+# /orchestrate — build ConvertSama
 
-You are the orchestrator. You own phase gating, `Package.swift`, `RondoKit` contracts, the `Rondo` app target, `rondo-cli`, integration, verification, and `docs/PROGRESS.md`. Subagents each own one workstream with a disjoint set of paths.
+You are the orchestrator. You own phase gating, `Package.swift`, `ConvertSamaKit` contracts, the `ConvertSama` app target, `convertsama-cli`, integration, verification, and `docs/PROGRESS.md`. Subagents each own one workstream with a disjoint set of paths.
 
 Every run, read first: `CLAUDE.md`, `docs/SPEC.md`, `docs/ARCHITECTURE.md`, `docs/PROGRESS.md`. Read `workstreams.md` (this skill's directory) before launching any subagent.
 
@@ -26,7 +26,7 @@ Every run, read first: `CLAUDE.md`, `docs/SPEC.md`, `docs/ARCHITECTURE.md`, `doc
 ## Hard rules
 
 1. **Clean room.** Obey CLAUDE.md clean-room rules. Never fetch, install, or inspect Tangerine's binary/package/bundle, never run REA or a disassembler on it, never copy its name, icon, screenshots, or copy. Reject any subagent output that does.
-2. **Contracts first.** Only you edit `Package.swift`, `Sources/RondoKit/**` public API, `Sources/Rondo/**`, `Sources/rondo-cli/**`, `scripts/**`. A subagent needing a contract change reports the request; you decide, apply it, update `docs/ARCHITECTURE.md`, and tell affected agents.
+2. **Contracts first.** Only you edit `Package.swift`, `Sources/ConvertSamaKit/**` public API, `Sources/ConvertSama/**`, `Sources/convertsama-cli/**`, `scripts/**`. A subagent needing a contract change reports the request; you decide, apply it, update `docs/ARCHITECTURE.md`, and tell affected agents.
 3. **Disjoint ownership.** Each workstream edits only its owned paths (see `workstreams.md`). After each agent finishes, check `git status --porcelain` for edits outside its paths and revert/flag them.
 4. **Build per target.** Agents verify with `swift build --target <T>` on the shared `.build` (SwiftPM serializes the lock; waiting is normal). No extra `--scratch-path` dirs — disk is tight.
 5. **Evidence gates.** A phase/workstream is done only when you ran its gate commands and they passed. Show failing output verbatim. Never check a box on an agent's say-so.
@@ -52,15 +52,15 @@ Every run, read first: `CLAUDE.md`, `docs/SPEC.md`, `docs/ARCHITECTURE.md`, `doc
 
 ### P1 — Scaffold + drag spike (you, sequential)
 1. `Package.swift` (tools 6.0, `.macOS(.v13)`) declaring every target in ARCHITECTURE.md §Layout with a placeholder source file each, so `swift build --target X` works from day one. Test targets per the P0 probe.
-2. `Resources/Info.plist`: `CFBundleIdentifier com.farazbukhari.rondo`, `CFBundleExecutable Rondo`, `LSUIElement` true, `LSMinimumSystemVersion 13.0`, `NSAppleEventsUsageDescription`, versions.
-3. `scripts/bundle.sh [debug|release]`: `swift build -c <conf> --product Rondo` → assemble `build/Rondo.app/Contents/{MacOS,Resources}` → copy plist/icon → `codesign --force -s "${SIGN_ID:--}"`. Use `SIGN_ID` only if that identity exists. `scripts/run.sh`: bundle, quit running instance, `open build/Rondo.app`.
-4. Minimal app: status item with Quit; spike `DragMonitor` + `WheelPanel` (4 dummy slices) in `RondoInteraction` per ARCHITECTURE §Global drag detection; dropped URLs logged via `os_log` and shown in a notification/alert.
-5. **Gate:** `swift build` ok; `scripts/bundle.sh` produces `build/Rondo.app`; `scripts/run.sh` then `pgrep -x Rondo` finds it. Then ask the user (AskUserQuestion) to drag a file in Finder and tap Shift: did the wheel appear and did the drop register? If no → log in Decisions, plan the fallback entry points from SPEC §1, continue. Commit.
+2. `Resources/Info.plist`: `CFBundleIdentifier com.farazbukhari.convertsama`, `CFBundleExecutable ConvertSama`, `LSUIElement` true, `LSMinimumSystemVersion 13.0`, `NSAppleEventsUsageDescription`, versions.
+3. `scripts/bundle.sh [debug|release]`: `swift build -c <conf> --product ConvertSama` → assemble `build/ConvertSama.app/Contents/{MacOS,Resources}` → copy plist/icon → `codesign --force -s "${SIGN_ID:--}"`. Use `SIGN_ID` only if that identity exists. `scripts/run.sh`: bundle, quit running instance, `open build/ConvertSama.app`.
+4. Minimal app: status item with Quit; spike `DragMonitor` + `WheelPanel` (4 dummy slices) in `ConvertSamaInteraction` per ARCHITECTURE §Global drag detection; dropped URLs logged via `os_log` and shown in a notification/alert.
+5. **Gate:** `swift build` ok; `scripts/bundle.sh` produces `build/ConvertSama.app`; `scripts/run.sh` then `pgrep -x ConvertSama` finds it. Then ask the user (AskUserQuestion) to drag a file in Finder and tap Shift: did the wheel appear and did the drop register? If no → log in Decisions, plan the fallback entry points from SPEC §1, continue. Commit.
 
 ### P2 — Contracts (you)
-1. Implement `RondoKit` per ARCHITECTURE §Contracts: model types, `FormatCatalog` (every format in SPEC §3), `Engine`, `EngineRegistry` (intersection logic), `JobQueue` (heavy-job limit, cancellation), `OutputNamer` (Finder-style collisions, atomic commit), `ToolLocator`, `ProcessRunner` (stdout line streaming, kill on cancel, stderr tail), `Settings`, `WheelItemProvider` default impl.
+1. Implement `ConvertSamaKit` per ARCHITECTURE §Contracts: model types, `FormatCatalog` (every format in SPEC §3), `Engine`, `EngineRegistry` (intersection logic), `JobQueue` (heavy-job limit, cancellation), `OutputNamer` (Finder-style collisions, atomic commit), `ToolLocator`, `ProcessRunner` (stdout line streaming, kill on cancel, stderr tail), `Settings`, `WheelItemProvider` default impl.
 2. Tests: OutputNamer collisions, FormatCatalog lookups by ext/UTType, registry intersection, ProcessRunner cancel kills child, JobQueue event ordering.
-3. **Gate:** `swift build --target RondoKit` + RondoKit tests pass. Update ARCHITECTURE.md if any signature changed. Commit.
+3. **Gate:** `swift build --target ConvertSamaKit` + ConvertSamaKit tests pass. Update ARCHITECTURE.md if any signature changed. Commit.
 
 ### P3 — Workstreams W1–W5 (parallel subagents)
 1. Launch W1–W5 per protocol above.
@@ -68,9 +68,9 @@ Every run, read first: `CLAUDE.md`, `docs/SPEC.md`, `docs/ARCHITECTURE.md`, `doc
 3. **Gate:** all five checked. Apply any accepted contract requests. Commit.
 
 ### P4 — Integration (you)
-1. `Sources/Rondo`: composition root per ARCHITECTURE §App composition.
-2. `Sources/rondo-cli`: `list <file>` (convert targets + tools), `convert <in...> --to <fmt>`, `tool <id> <in...> [--opt k=v]`, `selftest` (runs core checks when `swift test` is unavailable).
-3. `scripts/make-fixtures.sh` (generate small fixtures with ffmpeg testsrc/sine, magick, textutil, Swift — nothing downloaded) and `scripts/smoke.sh` (every v1 conversion + headless tool via rondo-cli; verify outputs with `ffprobe`/`sips`/`file`; print pass/fail table).
+1. `Sources/ConvertSama`: composition root per ARCHITECTURE §App composition.
+2. `Sources/convertsama-cli`: `list <file>` (convert targets + tools), `convert <in...> --to <fmt>`, `tool <id> <in...> [--opt k=v]`, `selftest` (runs core checks when `swift test` is unavailable).
+3. `scripts/make-fixtures.sh` (generate small fixtures with ffmpeg testsrc/sine, magick, textutil, Swift — nothing downloaded) and `scripts/smoke.sh` (every v1 conversion + headless tool via convertsama-cli; verify outputs with `ffprobe`/`sips`/`file`; print pass/fail table).
 4. **Gate:** `swift build`; tests (or `selftest`) pass; `smoke.sh` ≥90% of v1 matrix passes — fill PROGRESS.md Smoke matrix, list every failure; app bundles and launches. Ask user to run Manual QA items 1–6. Commit.
 
 ### P5 — Tool windows W6–W8 (parallel subagents)
@@ -80,11 +80,11 @@ Every run, read first: `CLAUDE.md`, `docs/SPEC.md`, `docs/ARCHITECTURE.md`, `doc
 
 ### P6 — Polish (you, optionally one subagent for the icon)
 - Settings complete per SPEC §5; permission onboarding (Accessibility/Automation status + System Settings deep links — the user grants, you never do); launch at login via `SMAppService`; original app icon generated by a Swift/CoreGraphics script → `iconutil` → `Resources/AppIcon.icns` (no citrus/Tangerine imagery); release build.
-- **Gate:** `scripts/bundle.sh release` ok; app launches; settings persist across relaunch (verify via `defaults read com.farazbukhari.rondo`). Commit.
+- **Gate:** `scripts/bundle.sh release` ok; app launches; settings persist across relaunch (verify via `defaults read com.farazbukhari.convertsama`). Commit.
 
 ### P7 — Verify
 1. Clean release build: `swift build -c release` (don't delete `.build` without asking).
-2. Tests / selftest; `scripts/smoke.sh`; `codesign -dv build/Rondo.app`; launch check.
+2. Tests / selftest; `scripts/smoke.sh`; `codesign -dv build/ConvertSama.app`; launch check.
 3. Review: spawn `caveman:cavecrew-reviewer` (fallback `general-purpose`) over `Sources/` for correctness — input-file mutation, leaked processes on cancel, partial outputs beside originals, main-thread blocking, force-unwraps on user files.
 4. Clean-room audit: `grep -ri tangerine Sources Resources scripts` must be empty; no binary assets not generated by repo scripts.
 5. **Gate:** all green; Manual QA list handed to the user with what remains unverified.

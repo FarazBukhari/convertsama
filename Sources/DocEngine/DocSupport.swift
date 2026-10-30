@@ -1,9 +1,9 @@
 import Foundation
 import CoreGraphics
 import os
-import RondoKit
+import ConvertSamaKit
 
-let docLog = Logger(subsystem: "com.farazbukhari.rondo", category: "docs")
+let docLog = Logger(subsystem: "com.farazbukhari.convertsama", category: "docs")
 
 enum DocSupport {
     /// Fresh scratch dir inside the job's temp dir.
@@ -171,7 +171,7 @@ enum Probe {
     static func verifyTarReadsRAR(_ tar: URL) async -> Bool {
         let key = "rar-listing:" + tar.path
         if let hit = cached(key) { return hit }
-        let dir = FileManager.default.temporaryDirectory.appendingPathComponent("rondo-rar-probe-\(UUID().uuidString)")
+        let dir = FileManager.default.temporaryDirectory.appendingPathComponent("convertsama-rar-probe-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: dir) }
         var ok = false
         do {

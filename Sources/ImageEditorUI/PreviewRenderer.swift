@@ -2,7 +2,7 @@ import CoreGraphics
 import CoreImage
 import Foundation
 import ImageIO
-import RondoKit
+import ConvertSamaKit
 import Vision
 
 /// Downsampled, orientation-corrected preview of the source plus its full-resolution size.
@@ -49,7 +49,7 @@ public enum ProxyLoaderError: LocalizedError, Equatable {
 /// Blocking image work (decode, Core Image/CG renders) runs on a GCD queue, not the Swift cooperative pool:
 /// other jobs may tie up every cooperative thread (process waits, heavy engines) and starve the editor.
 enum EditorWork {
-    static let queue = DispatchQueue(label: "com.farazbukhari.rondo.image-editor.work", qos: .userInitiated, attributes: .concurrent)
+    static let queue = DispatchQueue(label: "com.farazbukhari.convertsama.image-editor.work", qos: .userInitiated, attributes: .concurrent)
 
     static func run<T>(_ work: @escaping () -> T) async -> T {
         await withCheckedContinuation { cont in

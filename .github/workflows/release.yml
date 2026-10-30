@@ -42,7 +42,7 @@ jobs:
           if gh release view "$TAG" >/dev/null 2>&1; then
             gh release upload "$TAG" dist/*.zip dist/*.sha256 --clobber
           else
-            gh release create "$TAG" dist/*.zip dist/*.sha256 --title "Rondo ${TAG#v}" --notes-file dist/notes.md
+            gh release create "$TAG" dist/*.zip dist/*.sha256 --title "ConvertSama ${TAG#v}" --notes-file dist/notes.md
           fi
 
       # Needs repo secret TAP_TOKEN: fine-grained token, FarazBukhari/homebrew-tap only, Contents read/write.
@@ -55,19 +55,23 @@ jobs:
             exit 0
           fi
           VERSION="${TAG#v}"
-          SHA="$(cut -d' ' -f1 "dist/Rondo-$VERSION.zip.sha256")"
+          SHA="$(cut -d' ' -f1 "dist/ConvertSama-$VERSION.zip.sha256")"
           git clone --depth 1 "https://x-access-token:${TAP_TOKEN}@github.com/FarazBukhari/homebrew-tap.git" tap
           cd tap
-          CURRENT="$(sed -nE 's/^  version "(.*)"/\1/p' Casks/rondo.rb)"
+          if [[ ! -f Casks/convertsama.rb ]]; then
+            echo "::warning::Tap has no Casks/convertsama.rb yet; add it by hand for this release"
+            exit 0
+          fi
+          CURRENT="$(sed -nE 's/^  version "(.*)"/\1/p' Casks/convertsama.rb)"
           if [[ "$(printf '%s\n%s\n' "$CURRENT" "$VERSION" | sort -V | tail -1)" != "$VERSION" ]]; then
             echo "::notice::Tap is at $CURRENT, newer than $VERSION; not downgrading"
             exit 0
           fi
-          sed -i '' -E "s/^  version \".*\"/  version \"$VERSION\"/; s/^  sha256 \".*\"/  sha256 \"$SHA\"/" Casks/rondo.rb
+          sed -i '' -E "s/^  version \".*\"/  version \"$VERSION\"/; s/^  sha256 \".*\"/  sha256 \"$SHA\"/" Casks/convertsama.rb
           if git diff --quiet; then
             echo "Cask already at $VERSION"
             exit 0
           fi
           git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
-            commit -am "rondo $VERSION"
+            commit -am "convertsama $VERSION"
           git push origin HEAD:main

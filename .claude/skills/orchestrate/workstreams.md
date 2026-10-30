@@ -6,12 +6,12 @@ Paste **Shared preamble** + one workstream section into each subagent prompt.
 
 ## Shared preamble
 
-You are building one workstream of **Rondo**, a clean-room macOS menu-bar file converter (Swift 6.3, SwiftPM only, Command Line Tools only — no Xcode.app, no `xcodebuild`). Repo: the repository root (current working directory).
+You are building one workstream of **ConvertSama**, a clean-room macOS menu-bar file converter (Swift 6.3, SwiftPM only, Command Line Tools only — no Xcode.app, no `xcodebuild`). Repo: the repository root (current working directory).
 
-Read first: `CLAUDE.md`, `docs/ARCHITECTURE.md` (contracts — code against `RondoKit` exactly), and the `docs/SPEC.md` sections named in your brief.
+Read first: `CLAUDE.md`, `docs/ARCHITECTURE.md` (contracts — code against `ConvertSamaKit` exactly), and the `docs/SPEC.md` sections named in your brief.
 
 Rules:
-- Edit **only** your owned paths. Do not touch `Package.swift`, `Sources/RondoKit/**`, `Sources/Rondo/**`, `Sources/rondo-cli/**`, `scripts/**`, or other workstreams' paths. If you need a contract change, finish what you can against the current API and put the exact request (signature + reason) in your report.
+- Edit **only** your owned paths. Do not touch `Package.swift`, `Sources/ConvertSamaKit/**`, `Sources/ConvertSama/**`, `Sources/convertsama-cli/**`, `scripts/**`, or other workstreams' paths. If you need a contract change, finish what you can against the current API and put the exact request (signature + reason) in your report.
 - Clean room: behavior from SPEC only. Never fetch, inspect, or reference Tangerine binaries, assets, or copy. All visuals original.
 - Never modify input files. Write outputs to `context.tempDir`, then `context.namer.commit(...)`.
 - Shell out only via `ProcessRunner`; find tools only via `context.tools` / `ToolLocator`. Gate capabilities at runtime on tool presence and ImageIO/AVFoundation support.
@@ -24,7 +24,7 @@ Rules:
 
 ## W1 — Interaction (drag detection + wheel)
 
-Target: `RondoInteraction`. Owns `Sources/RondoInteraction/**`, `Tests/RondoInteractionTests/**`.
+Target: `ConvertSamaInteraction`. Owns `Sources/ConvertSamaInteraction/**`, `Tests/ConvertSamaInteractionTests/**`.
 SPEC: §1, §2 (wheel display only). ARCHITECTURE: §Global drag detection.
 
 Build on the P1 spike:
@@ -37,7 +37,7 @@ Build on the P1 spike:
 
 ## W2 — Shell + Actions
 
-Target: `RondoShell`. Owns `Sources/RondoShell/**`, `Tests/RondoShellTests/**`.
+Target: `ConvertSamaShell`. Owns `Sources/ConvertSamaShell/**`, `Tests/ConvertSamaShellTests/**`.
 SPEC: §1.1, §1.10, §1.11, §2, §5.
 
 - `StatusItemController`: menu (Recent outputs ▸ reveal, Show Float shelf, Settings…, Permissions…, Quit); button accepts file drops → callback to open wheel in click mode.
@@ -89,15 +89,15 @@ SPEC: §3 Documents, Slides, Spreadsheets, Subtitles, Archives rows.
 
 ## W6 — Image editor window (P5)
 
-Target: `ImageEditorUI` (deps: RondoKit, ImageEngine). Owns `Sources/ImageEditorUI/**`, `Tests/ImageEditorUITests/**`.
+Target: `ImageEditorUI` (deps: ConvertSamaKit, ImageEngine). Owns `Sources/ImageEditorUI/**`, `Tests/ImageEditorUITests/**`.
 SwiftUI window: canvas with zoom/pan; Crop (free/aspect presets, rotate/flip), Adjust (exposure, contrast, saturation, warmth, sharpness via Core Image, live preview), Annotate (arrow, rect, ellipse, freehand, text; color/width), Redact (box, blur, pixelate regions), Background (solid color/padding for transparent images). Save → builds `JobSpec` with explicit options and calls the provided submit closure; never writes files itself. Entry: `ImageEditor.open(url:submit:)`.
 
 ## W7 — Media editor window (P5)
 
-Target: `MediaEditorUI` (deps: RondoKit, MediaEngine). Owns `Sources/MediaEditorUI/**`, `Tests/MediaEditorUITests/**`.
+Target: `MediaEditorUI` (deps: ConvertSamaKit, MediaEngine). Owns `Sources/MediaEditorUI/**`, `Tests/MediaEditorUITests/**`.
 AVKit player + filmstrip/waveform timeline; Trim (in/out handles), Split (markers), Crop (overlay rect, aspect presets), Snapshot (current frame), Speed slider, Audio Bleep (mark ranges on waveform). Output → `JobSpec` via submit closure. Entry: `MediaEditor.open(url:tool:submit:)`.
 
 ## W8 — PDF organizer (P5)
 
-Target: `PDFOrganizerUI` (deps: RondoKit, PDFEngine). Owns `Sources/PDFOrganizerUI/**`, `Tests/PDFOrganizerUITests/**`.
+Target: `PDFOrganizerUI` (deps: ConvertSamaKit, PDFEngine). Owns `Sources/PDFOrganizerUI/**`, `Tests/PDFOrganizerUITests/**`.
 Thumbnail grid (`PDFKit` thumbnails): drag-reorder, rotate, delete, multi-select split ranges, merge multiple dropped PDFs, images → PDF with page size/margins. Output → `JobSpec` via submit closure. Entry: `PDFOrganizer.open(urls:tool:submit:)`.

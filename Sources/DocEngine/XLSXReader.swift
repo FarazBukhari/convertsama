@@ -1,5 +1,5 @@
 import Foundation
-import RondoKit
+import ConvertSamaKit
 
 /// XLSX → rows of display strings. Parts are read in memory via `ZipReader` (size-capped, symlink members
 /// refused); the sheet is stored sparsely and bounded by Excel's own limits before anything dense is built.

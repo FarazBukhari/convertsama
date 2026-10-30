@@ -1,7 +1,7 @@
 import AppKit
 import AVFoundation
 import Foundation
-import RondoKit
+import ConvertSamaKit
 
 /// State + behaviour behind one editor window. Owns the preview work (probe, filmstrip/waveform,
 /// playback or proxy) and tears it all down in `shutdown()`. Never writes beside the user's file.

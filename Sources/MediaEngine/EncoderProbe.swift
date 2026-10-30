@@ -1,5 +1,5 @@
 import Foundation
-import RondoKit
+import ConvertSamaKit
 
 struct EncoderSet: Sendable {
     let names: Set<String>

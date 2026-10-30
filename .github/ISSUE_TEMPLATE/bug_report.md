@@ -14,8 +14,8 @@ labels: bug
 3. …
 
 **Environment**
-- Rondo version (menu bar → About, or release name):
+- ConvertSama version (menu bar → About, or release name):
 - macOS version and Mac (Intel / Apple Silicon):
 - `ffmpeg -version | head -1` and `magick -version | head -1` (if installed):
 
-**Logs** (optional): Console.app, filter `com.farazbukhari.rondo`.
+**Logs** (optional): Console.app, filter `com.farazbukhari.convertsama`.

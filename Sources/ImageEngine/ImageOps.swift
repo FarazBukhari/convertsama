@@ -1,7 +1,7 @@
 import Foundation
 import CoreGraphics
 import ImageIO
-import RondoKit
+import ConvertSamaKit
 
 extension CGImage {
     var hasAlpha: Bool {

@@ -1,4 +1,4 @@
-import RondoKit
+import ConvertSamaKit
 import SwiftUI
 
 /// Root of the editor window: panel tabs + zoom on top, canvas + inspector, file info + Cancel/Save below.

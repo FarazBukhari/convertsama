@@ -1,7 +1,7 @@
 import Foundation
 import Testing
 @testable import MediaEngine
-@testable import RondoKit
+@testable import ConvertSamaKit
 
 /// Regressions from the P7 code review.
 @Suite struct ReviewRegressionTests {

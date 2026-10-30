@@ -3,7 +3,7 @@ import CoreGraphics
 import CoreText
 import ImageIO
 import PDFKit
-import RondoKit
+import ConvertSamaKit
 @testable import PDFEngine
 
 enum PFx {
@@ -12,7 +12,7 @@ enum PFx {
 
     static func dir(_ name: String) throws -> URL {
         let d = FileManager.default.temporaryDirectory
-            .appendingPathComponent("RondoW3Tests", isDirectory: true)
+            .appendingPathComponent("ConvertSamaW3Tests", isDirectory: true)
             .appendingPathComponent("pdf-\(name)-\(UUID().uuidString.prefix(8))", isDirectory: true)
         try FileManager.default.createDirectory(at: d, withIntermediateDirectories: true)
         return d

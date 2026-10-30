@@ -1,5 +1,5 @@
 import Foundation
-import RondoKit
+import ConvertSamaKit
 
 /// Delimited text (RFC 4180) and a minimal XLSX reader/writer.
 enum Delimited {

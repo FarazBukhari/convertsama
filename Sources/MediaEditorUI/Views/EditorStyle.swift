@@ -1,7 +1,7 @@
 import AppKit
 import SwiftUI
 
-/// Rondo's media-editor palette (original). System colours so light and dark both work.
+/// ConvertSama's media-editor palette (original). System colours so light and dark both work.
 enum EditorStyle {
     static let keep = Color(nsColor: .controlAccentColor)
     static let bleep = Color(nsColor: .systemPink)

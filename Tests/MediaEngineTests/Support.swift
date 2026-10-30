@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-import RondoKit
+import ConvertSamaKit
 @testable import MediaEngine
 
 /// Tiny generated fixtures (2 s, 160×120 testsrc / 440 Hz sine) under fixtures/out/W4/src.
@@ -92,7 +92,7 @@ struct Sandbox {
     let dir: URL
 
     init() throws {
-        dir = FileManager.default.temporaryDirectory.appendingPathComponent("rondo-w4-\(UUID().uuidString)", isDirectory: true)
+        dir = FileManager.default.temporaryDirectory.appendingPathComponent("convertsama-w4-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
     }
 

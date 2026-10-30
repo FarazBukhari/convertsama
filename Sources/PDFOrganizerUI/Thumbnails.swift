@@ -81,7 +81,7 @@ final class PageRenderer: @unchecked Sendable {
         }
     }
 
-    private let queue = DispatchQueue(label: "com.farazbukhari.rondo.pdf-organizer.thumbs", qos: .userInitiated)
+    private let queue = DispatchQueue(label: "com.farazbukhari.convertsama.pdf-organizer.thumbs", qos: .userInitiated)
     private let documents = Documents()
 
     func render(_ key: ThumbKey, maxPixels: CGFloat, completion: @escaping @Sendable (CGImage?) -> Void) {

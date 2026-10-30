@@ -1,8 +1,8 @@
 import Foundation
 import os
-import RondoKit
+import ConvertSamaKit
 
-let mediaLog = Logger(subsystem: "com.farazbukhari.rondo", category: "media")
+let mediaLog = Logger(subsystem: "com.farazbukhari.convertsama", category: "media")
 
 // MARK: - Progress
 

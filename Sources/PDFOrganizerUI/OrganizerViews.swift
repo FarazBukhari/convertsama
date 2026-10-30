@@ -304,7 +304,7 @@ enum PageDragPayload {
     static func provider(for id: Int) -> NSItemProvider {
         let provider = NSItemProvider()
         provider.registerDataRepresentation(forTypeIdentifier: type.identifier, visibility: .ownProcess) { done in
-            done(Data("rondo-page:\(id)".utf8), nil)
+            done(Data("convertsama-page:\(id)".utf8), nil)
             return nil
         }
         return provider

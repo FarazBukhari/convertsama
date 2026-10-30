@@ -1,5 +1,5 @@
 import AppKit
-import RondoKit
+import ConvertSamaKit
 import SwiftUI
 
 /// Entry point for the media editor windows (video trim/split/crop/snapshot/speed, audio trim/bleep).

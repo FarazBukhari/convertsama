@@ -3,7 +3,7 @@ import CoreGraphics
 import CoreImage
 import ImageIO
 import Vision
-import RondoKit
+import ConvertSamaKit
 
 /// Headless image tools: compress, metadata read/strip, QR read.
 enum ImageTools {

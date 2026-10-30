@@ -2,7 +2,7 @@ import Foundation
 import CoreGraphics
 import ImageIO
 import Testing
-import RondoKit
+import ConvertSamaKit
 @testable import ImageEngine
 
 @Suite struct ImageEngineCapabilityTests {
@@ -229,7 +229,7 @@ extension ToolLocator {
         defer { Fx.cleanup(dir) }
         let src = dir.appendingPathComponent("camera.jpg")
         let props: [String: Any] = [
-            kCGImagePropertyTIFFDictionary as String: [kCGImagePropertyTIFFMake as String: "RondoCam", kCGImagePropertyTIFFModel as String: "X1"],
+            kCGImagePropertyTIFFDictionary as String: [kCGImagePropertyTIFFMake as String: "ConvertSamaCam", kCGImagePropertyTIFFModel as String: "X1"],
             kCGImagePropertyExifDictionary as String: [kCGImagePropertyExifDateTimeOriginal as String: "2026:10:01 12:00:00"],
             kCGImagePropertyGPSDictionary as String: [kCGImagePropertyGPSLatitude as String: 43.65, kCGImagePropertyGPSLatitudeRef as String: "N",
                                                       kCGImagePropertyGPSLongitude as String: 79.38, kCGImagePropertyGPSLongitudeRef as String: "W"],
@@ -244,7 +244,7 @@ extension ToolLocator {
         let image = try #require(json["image"] as? [String: Any])
         #expect(image["width"] as? Int == 160)
         let raw = try #require(json["properties"] as? [String: Any])
-        #expect((raw["{TIFF}"] as? [String: Any])?["Make"] as? String == "RondoCam")
+        #expect((raw["{TIFF}"] as? [String: Any])?["Make"] as? String == "ConvertSamaCam")
         #expect(raw["{GPS}"] != nil)
 
         let stripped = try await e.runTest(JobSpec(inputs: [src], operation: .tool("image.metadata.strip")))
@@ -268,7 +268,7 @@ extension ToolLocator {
         let dir = try Fx.dir("qr")
         defer { Fx.cleanup(dir) }
         let src = dir.appendingPathComponent("code.png")
-        let payload = "https://rondo.example/w3?q=1"
+        let payload = "https://convertsama.example/w3?q=1"
         Fx.write(Fx.qr(payload), type: "public.png", to: src)
         let out = try await RasterEngine().runTest(JobSpec(inputs: [src], operation: .tool("image.qr.read")))
         #expect(out[0].lastPathComponent == "code QR.txt")

@@ -1,7 +1,7 @@
 import AppKit
 import CoreText
 import ImageIO
-import RondoKit
+import ConvertSamaKit
 
 /// PDF output via Core Text (thread-safe; no AppKit views).
 enum PDFWriter {
@@ -12,7 +12,7 @@ enum PDFWriter {
 
     private static func context(_ url: URL, size: CGSize, info: Info) throws -> CGContext {
         var box = CGRect(origin: .zero, size: size)
-        var aux: [CFString: Any] = [kCGPDFContextCreator: "Rondo"]
+        var aux: [CFString: Any] = [kCGPDFContextCreator: "ConvertSama"]
         if let t = info.title { aux[kCGPDFContextTitle] = t }
         if let a = info.author { aux[kCGPDFContextAuthor] = a }
         guard let ctx = CGContext(url as CFURL, mediaBox: &box, aux as CFDictionary) else {

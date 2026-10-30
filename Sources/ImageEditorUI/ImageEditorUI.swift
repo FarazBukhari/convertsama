@@ -1,9 +1,9 @@
 import AppKit
 import os
-import RondoKit
+import ConvertSamaKit
 import SwiftUI
 
-let editorLog = Logger(subsystem: "com.farazbukhari.rondo", category: "image-editor")
+let editorLog = Logger(subsystem: "com.farazbukhari.convertsama", category: "image-editor")
 
 /// Entry point for the image editor windows (Crop / Adjust / Annotate / Redact / Background).
 /// Editors never write files: Save hands explicit options to `submit`, and the app runs the job.
@@ -74,7 +74,7 @@ final class ImageEditorWindowController: NSWindowController, NSWindowDelegate {
                                   styleMask: [.titled, .closable, .miniaturizable, .resizable],
                                   backing: .buffered, defer: false)
         window.title = model.url.lastPathComponent
-        window.subtitle = "Rondo Image Editor"
+        window.subtitle = "ConvertSama Image Editor"
         window.isReleasedWhenClosed = false
         window.tabbingMode = .disallowed
         window.contentViewController = NSHostingController(rootView: ImageEditorView(model: model))

@@ -1,6 +1,6 @@
 import Foundation
 import PDFKit
-import RondoKit
+import ConvertSamaKit
 
 /// PDF conversions (→ JPG/PNG/TXT/MD/DOCX/EPUB), TXT → PDF/JPG/PNG, and PDF page tools.
 /// Everything here is built on PDFKit / Core Graphics / Core Text / Vision — no external tools.
@@ -15,8 +15,8 @@ public struct PDFDocumentEngine: Engine {
     // MARK: Capabilities
 
     public func conversions() -> [ConversionDescriptor] {
-        RondoKit.conversions(from: ["pdf"], to: ["jpg", "png", "txt", "md", "docx", "epub"])
-            + RondoKit.conversions(from: ["txt"], to: ["pdf", "jpg", "png"])
+        ConvertSamaKit.conversions(from: ["pdf"], to: ["jpg", "png", "txt", "md", "docx", "epub"])
+            + ConvertSamaKit.conversions(from: ["txt"], to: ["pdf", "jpg", "png"])
     }
 
     public func tools() -> [ToolDescriptor] { Self.descriptors }

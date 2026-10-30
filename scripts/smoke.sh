@@ -7,5 +7,5 @@ cd "$(dirname "$0")/.."
 
 [[ -d fixtures/out/src ]] || scripts/make-fixtures.sh
 rm -rf fixtures/out/smoke
-swift build --product rondo-cli >/dev/null
-"$(swift build --show-bin-path)/rondo-cli" smoke fixtures/out/src fixtures/out/smoke "$@"
+swift build --product convertsama-cli >/dev/null
+"$(swift build --show-bin-path)/convertsama-cli" smoke fixtures/out/src fixtures/out/smoke "$@"

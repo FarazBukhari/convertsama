@@ -2,7 +2,7 @@ import Foundation
 import CoreGraphics
 import CoreImage
 import ImageIO
-import RondoKit
+import ConvertSamaKit
 @testable import ImageEngine
 
 /// Small generated fixtures (≤200 px) in a per-test temp dir.
@@ -11,7 +11,7 @@ enum Fx {
 
     static func dir(_ name: String) throws -> URL {
         let d = FileManager.default.temporaryDirectory
-            .appendingPathComponent("RondoW3Tests", isDirectory: true)
+            .appendingPathComponent("ConvertSamaW3Tests", isDirectory: true)
             .appendingPathComponent("\(name)-\(UUID().uuidString.prefix(8))", isDirectory: true)
         try FileManager.default.createDirectory(at: d, withIntermediateDirectories: true)
         return d

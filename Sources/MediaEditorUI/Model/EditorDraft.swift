@@ -1,7 +1,7 @@
 import CoreGraphics
 import Foundation
 import MediaEngine
-import RondoKit
+import ConvertSamaKit
 
 /// One editor panel = one engine tool.
 public enum EditorPanel: String, CaseIterable, Identifiable, Sendable {

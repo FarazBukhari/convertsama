@@ -26,7 +26,7 @@ enum Block: Equatable {
 
 /// Hint attribute set by our own importers (Markdown) so block types survive into the writers.
 extension NSAttributedString.Key {
-    static let rondoBlock = NSAttributedString.Key("RondoBlock")
+    static let convertsamaBlock = NSAttributedString.Key("ConvertSamaBlock")
 }
 
 enum BlockHint: String {
@@ -70,7 +70,7 @@ enum BlockExtractor {
             }
             let at = min(probe.location, attr.length - 1)
             let style = attr.attribute(.paragraphStyle, at: at, effectiveRange: nil) as? NSParagraphStyle
-            let hint = (attr.attribute(.rondoBlock, at: at, effectiveRange: nil) as? String).flatMap(BlockHint.init(rawValue:))
+            let hint = (attr.attribute(.convertsamaBlock, at: at, effectiveRange: nil) as? String).flatMap(BlockHint.init(rawValue:))
             paras.append(Para(range: range, text: text, style: style, hint: hint, mono: mono, bold: bold, maxSize: maxSize))
         }
 

@@ -1,7 +1,7 @@
 import Combine
 import CoreGraphics
 import Foundation
-import RondoKit
+import ConvertSamaKit
 
 /// Editor panels, one per editor-backed image tool.
 public enum EditorPanel: String, CaseIterable, Identifiable, Sendable {

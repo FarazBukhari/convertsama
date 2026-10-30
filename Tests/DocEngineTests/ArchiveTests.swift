@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-import RondoKit
+import ConvertSamaKit
 @testable import DocEngine
 
 @Suite struct ArchiveTests {
@@ -70,7 +70,7 @@ import RondoKit
         #expect(Set(try FileManager.default.contentsOfDirectory(atPath: out.path)) == ["one.txt", "two.txt"])
     }
 
-    @Test(arguments: ["../evil.txt", "ok/../../evil.txt", "/tmp/rondo-evil.txt"])
+    @Test(arguments: ["../evil.txt", "ok/../../evil.txt", "/tmp/convertsama-evil.txt"])
     func zipTraversalRejected(entry: String) async throws {
         let dir = try W5.dir("arch-evil-zip")
         var zip = ZipBuilder()

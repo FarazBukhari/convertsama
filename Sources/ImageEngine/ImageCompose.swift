@@ -1,7 +1,7 @@
 import Foundation
 import CoreGraphics
 import ImageIO
-import RondoKit
+import ConvertSamaKit
 
 /// Images → PDF (one image per page) and collages. Both stream: each input is decoded only when its
 /// page/cell is drawn, downsampled to the pixels that page/cell actually needs, then released.
@@ -17,7 +17,7 @@ enum ImageCompose {
     static func writePDF(_ sources: [ImageSource], to url: URL, pageSize: PageSize, margin: Double, quality: Double,
                          title: String?, progress: (Double) -> Void) throws {
         var media = CGRect(x: 0, y: 0, width: 612, height: 792)
-        var info: [String: Any] = [kCGPDFContextCreator as String: "Rondo"]
+        var info: [String: Any] = [kCGPDFContextCreator as String: "ConvertSama"]
         if let title { info[kCGPDFContextTitle as String] = title }
         guard let ctx = CGContext(url as CFURL, mediaBox: &media, info as CFDictionary) else {
             throw EngineError.failed("Can't create PDF")

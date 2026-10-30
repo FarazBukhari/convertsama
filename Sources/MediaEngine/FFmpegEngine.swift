@@ -1,5 +1,5 @@
 import Foundation
-import RondoKit
+import ConvertSamaKit
 
 /// Video + audio conversions and tools, backed by ffmpeg/ffprobe.
 ///
@@ -46,8 +46,8 @@ public struct FFmpegEngine: Engine {
         if enc.has("gif") && enc.has("png") { videoTargets.append("gif") }
         if AudioTarget.forFormat("mp3")?.isAvailable(enc) == true { videoTargets.append("mp3") }
         let audioTargets = AudioTarget.all.filter { $0.isAvailable(enc) }.map(\.id)
-        return RondoKit.conversions(from: VideoContainer.inputIDs, to: videoTargets)
-            + RondoKit.conversions(from: Self.audioInputIDs, to: audioTargets)
+        return ConvertSamaKit.conversions(from: VideoContainer.inputIDs, to: videoTargets)
+            + ConvertSamaKit.conversions(from: Self.audioInputIDs, to: audioTargets)
     }
 
     public func tools() -> [ToolDescriptor] {

@@ -3,7 +3,7 @@ import CoreGraphics
 import CoreImage
 import CoreText
 import Vision
-import RondoKit
+import ConvertSamaKit
 
 /// Pixel edits behind the editor-backed tools (crop / adjust / annotate / redact / background).
 /// Every function is headless and takes explicit values so W6's editor can build a JobSpec.

@@ -1,5 +1,5 @@
 import Foundation
-import RondoKit
+import ConvertSamaKit
 @testable import DocEngine
 
 /// Shared helpers: per-test scratch dirs under fixtures/out/W5/, job runner, small file utilities.

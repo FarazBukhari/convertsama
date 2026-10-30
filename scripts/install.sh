@@ -1,18 +1,26 @@
 #!/usr/bin/env bash
-# Release-build Rondo, sign it (SIGN_ID, default "Rondo Dev" if present), install to /Applications, relaunch.
+# Release-build ConvertSama, sign it (SIGN_ID, default "ConvertSama Dev" if present), install to /Applications, relaunch.
 # Usage: scripts/install.sh
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-export SIGN_ID="${SIGN_ID:-Rondo Dev}"
+if [[ -z "${SIGN_ID:-}" ]]; then
+  SIGN_ID="ConvertSama Dev"
+  # Keychains set up before the rename hold the old "Rondo Dev" certificate.
+  security find-identity -p codesigning | grep -q "\"$SIGN_ID\"" || SIGN_ID="Rondo Dev"
+fi
+export SIGN_ID
 scripts/bundle.sh release
 
-if pgrep -x Rondo >/dev/null; then
-  osascript -e 'tell application id "com.farazbukhari.rondo" to quit' >/dev/null 2>&1 || true
-  for _ in {1..40}; do pgrep -x Rondo >/dev/null || break; sleep 0.25; done
-fi
-ditto build/Rondo.app /Applications/Rondo.app
-codesign -v /Applications/Rondo.app
-codesign -dv /Applications/Rondo.app 2>&1 | grep -E "^(Authority|Signature)=" || true
-open /Applications/Rondo.app
-echo "Installed /Applications/Rondo.app"
+# Quit the pre-rename app too: two copies would both open wheels on every drag.
+for app in "ConvertSama com.farazbukhari.convertsama" "Rondo com.farazbukhari.rondo"; do
+  read -r proc bid <<<"$app"
+  pgrep -x "$proc" >/dev/null || continue
+  osascript -e "tell application id \"$bid\" to quit" >/dev/null 2>&1 || true
+  for _ in {1..40}; do pgrep -x "$proc" >/dev/null || break; sleep 0.25; done
+done
+ditto build/ConvertSama.app /Applications/ConvertSama.app
+codesign -v /Applications/ConvertSama.app
+codesign -dv /Applications/ConvertSama.app 2>&1 | grep -E "^(Authority|Signature)=" || true
+open /Applications/ConvertSama.app
+echo "Installed /Applications/ConvertSama.app"

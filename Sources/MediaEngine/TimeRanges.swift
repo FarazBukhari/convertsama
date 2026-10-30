@@ -1,5 +1,5 @@
 import Foundation
-import RondoKit
+import ConvertSamaKit
 
 enum TimeRanges {
     /// Clamps to `0...duration`, drops ranges shorter than 50 ms; keeps order and overlaps.

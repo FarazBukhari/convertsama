@@ -1,7 +1,7 @@
 import AppKit
 import Foundation
 import Testing
-import RondoKit
+import ConvertSamaKit
 @testable import DocEngine
 
 @Suite struct DocumentTests {
