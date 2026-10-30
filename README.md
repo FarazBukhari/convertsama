@@ -59,7 +59,7 @@ Everything runs on your Mac. ConvertSama makes no network requests and collects 
 
 Verify a download: `shasum -a 256 ConvertSama-x.y.z.zip` must match the `.sha256` file on the release page.
 
-**Upgrading from Rondo?** ConvertSama is the same app under a new name. Your settings carry over on first launch; grant Accessibility and Automation again, then delete `Rondo.app`.
+**Upgrading from Rondo?** ConvertSama is the same app under a new name. Your settings carry over on first launch; grant Accessibility and Automation again. Homebrew users: `brew upgrade --cask farazbukhari/tap/convertsama` replaces Rondo. Otherwise delete `Rondo.app` yourself.
 
 **Requirements:** macOS 13 Ventura or later, Apple Silicon or Intel.
 
