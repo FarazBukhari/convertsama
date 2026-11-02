@@ -2,12 +2,15 @@
 
 All notable changes to ConvertSama (called Rondo up to 0.1.2). Versions follow [Semantic Versioning](https://semver.org).
 
+## [Unreleased]
+
+- Fix: extracting an archive could stop with "expands beyond the … limit" when other apps wrote to the disk at the same time. The size limit now counts only the extracted files.
+
 ## [0.2.0] - 2026-10-30
 
 - Renamed from Rondo to ConvertSama. The app is now `ConvertSama.app` (bundle id `com.farazbukhari.convertsama`) and the CLI is `convertsama-cli`.
 - Homebrew: the cask is now `farazbukhari/tap/convertsama`. If you installed `rondo`, run `brew upgrade --cask farazbukhari/tap/convertsama` once; a plain `brew upgrade` skips it.
 - Settings and recent outputs carry over from Rondo on first launch. macOS ties permissions to the app, so grant Accessibility and Automation again, and turn Launch at Login back on if you used it. Then delete `Rondo.app`.
-- Fix: extracting an archive could stop with "expands beyond the … limit" when other apps wrote to the disk at the same time. The size limit now counts only the extracted files.
 
 ## [0.1.2] - 2026-10-22
 
